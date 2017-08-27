@@ -1,9 +1,11 @@
 package com.example.vishalarora.localeventbuspoc.di.modules;
 
+import com.example.vishalarora.localeventbuspoc.LocalEventBus;
 import com.example.vishalarora.localeventbuspoc.MyApplication;
 
 import org.greenrobot.eventbus.EventBus;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,8 +24,10 @@ public class MyApplicationModule {
         this.myApplication = myApplication;
     }
 
+    @Singleton
     @Provides
+    @Named("systemEventBus")
     public EventBus getEventBus() {
-        return EventBus.getDefault();
+        return LocalEventBus.getDefault();
     }
 }

@@ -11,10 +11,14 @@ import android.widget.Button;
 
 import com.example.vishalarora.localeventbuspoc.MyApplication;
 import com.example.vishalarora.localeventbuspoc.R;
+import com.example.vishalarora.localeventbuspoc.di.components.MyApplicationComponent;
+import com.example.vishalarora.localeventbuspoc.di.components.PaymentComponent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by vishalarora on 25/08/17.
@@ -26,6 +30,7 @@ public class FirstFragment extends Fragment {
     private int textColor = Color.BLACK;
 
     @Inject
+    @Named("localEventBus")
     EventBus eventBus;
 
     @Nullable
@@ -35,6 +40,9 @@ public class FirstFragment extends Fragment {
         firstView = view.findViewById(R.id.first_view);
         firstView.setTextColor(textColor);
 
+        MyApplication.getInstance().getPaymentComponent().inject(this);
+
+        eventBus.register(this);
 
         firstView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +52,11 @@ public class FirstFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Subscribe
+    public void onEvent(Integer integer){
+        firstView.setTextColor(integer);
     }
 
 }
