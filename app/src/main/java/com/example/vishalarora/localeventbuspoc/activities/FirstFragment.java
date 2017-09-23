@@ -9,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.vishalarora.localeventbuspoc.MyApplication;
 import com.example.vishalarora.localeventbuspoc.R;
-import com.example.vishalarora.localeventbuspoc.di.components.MyApplicationComponent;
-import com.example.vishalarora.localeventbuspoc.di.components.PaymentComponent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,6 +20,7 @@ import javax.inject.Named;
 /**
  * Created by vishalarora on 25/08/17.
  */
+
 
 public class FirstFragment extends Fragment {
 
@@ -40,7 +38,6 @@ public class FirstFragment extends Fragment {
         firstView = view.findViewById(R.id.first_view);
         firstView.setTextColor(textColor);
 
-        MyApplication.getInstance().getPaymentComponent().inject(this);
 
         eventBus.register(this);
 

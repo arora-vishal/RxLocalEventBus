@@ -1,54 +1,48 @@
 package com.example.vishalarora.localeventbuspoc;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.example.vishalarora.localeventbuspoc.di.components.DaggerMyApplicationComponent;
-import com.example.vishalarora.localeventbuspoc.di.components.DaggerPaymentComponent;
-import com.example.vishalarora.localeventbuspoc.di.components.MyApplicationComponent;
 import com.example.vishalarora.localeventbuspoc.di.components.PaymentComponent;
 import com.example.vishalarora.localeventbuspoc.di.modules.MyActivityModule;
-import com.example.vishalarora.localeventbuspoc.di.modules.MyApplicationModule;
 
 import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
 /**
  * Created by vishalarora on 25/08/17.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends Application implements HasActivityInjector{
 
     private static MyApplication instance;
-    private MyApplicationComponent daggerMyApplicationComponent;
     private PaymentComponent paymentComponent;
+
+    @Inject
+    DispatchingAndroidInjector<Activity> mainActivityDispatchingAndroidInjector;
 
     @Inject
     @Named("systemEventBus")
     EventBus eventBus;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        daggerMyApplicationComponent = DaggerMyApplicationComponent
-                .builder()
-                .myApplicationModule(new MyApplicationModule(this))
-                .build();
-        daggerMyApplicationComponent.inject(this);
-
-
-        Logger.log(eventBus.hashCode());
+        DaggerMyApplicationComponent.builder().create(this).inject(this);
     }
 
     public PaymentComponent createPaymentComponent(MyActivityModule myActivityModule) {
-        paymentComponent = DaggerPaymentComponent.builder().myActivityModule(myActivityModule).build();
+        //paymentComponent = daggerMyApplicationComponent.get(myActivityModule);
         return paymentComponent;
-    }
-
-    public MyApplicationComponent getDaggerMyApplicationComponent() {
-        return daggerMyApplicationComponent;
     }
 
     public static MyApplication getInstance() {
@@ -63,7 +57,9 @@ public class MyApplication extends Application {
         return this.paymentComponent;
     }
 
-    public void clearPaymentComponent() {
-        this.paymentComponent = null;
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
+        return mainActivityDispatchingAndroidInjector;
     }
 }

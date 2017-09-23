@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.vishalarora.localeventbuspoc.MyApplication;
 import com.example.vishalarora.localeventbuspoc.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +34,6 @@ public class SecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_second, container, false);
         secondView = view.findViewById(R.id.second_view);
 
-        MyApplication.getInstance().getPaymentComponent().inject(this);
 
         secondView.setOnClickListener(new View.OnClickListener() {
             @Override

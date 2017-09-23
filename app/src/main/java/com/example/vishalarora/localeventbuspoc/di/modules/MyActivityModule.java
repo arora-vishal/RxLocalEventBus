@@ -1,7 +1,5 @@
 package com.example.vishalarora.localeventbuspoc.di.modules;
 
-import android.support.v7.app.AppCompatActivity;
-
 import com.example.vishalarora.localeventbuspoc.LocalEventBus;
 import com.example.vishalarora.localeventbuspoc.di.scopes.PaymentScope;
 
@@ -17,14 +15,7 @@ import dagger.Provides;
  */
 
 @Module
-public class MyActivityModule extends CommonModule {
-
-    private AppCompatActivity appCompatActivity;
-
-    public MyActivityModule(AppCompatActivity appCompatActivity) {
-        this.appCompatActivity = appCompatActivity;
-    }
-
+public class MyActivityModule{
 
     @PaymentScope
     @Provides
@@ -32,4 +23,5 @@ public class MyActivityModule extends CommonModule {
     public EventBus getEventBus() {
         return new LocalEventBus();
     }
+
 }
